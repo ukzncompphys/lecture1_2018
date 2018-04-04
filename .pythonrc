@@ -1,0 +1,25 @@
+import atexit
+import os
+
+import rlcompleter
+import readline
+
+
+#this writes your history at the end of your python session, and reads it at the beginning.
+historyPath = os.path.expanduser("~/.pyhistory")
+def save_history(historyPath=historyPath):
+    import readline
+    readline.write_history_file(historyPath)
+if os.path.exists(historyPath):
+    readline.read_history_file(historyPath)
+
+atexit.register(save_history)
+
+
+
+#some systems map tab differently, this code should try to handle that.    
+if 'libedit' in readline.__doc__:
+  readline.parse_and_bind("bind ^I rl_complete")
+else:
+  readline.parse_and_bind("tab: complete")
+
